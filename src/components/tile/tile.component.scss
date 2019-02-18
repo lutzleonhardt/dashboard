@@ -1,0 +1,15 @@
+mat-card-content {
+  width: 20rem;
+  height: 7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+mat-card-content, mat-card-title {
+  color: #3f51b5;
+}
+
+.material-icons {
+  color: #ff4081;
+}

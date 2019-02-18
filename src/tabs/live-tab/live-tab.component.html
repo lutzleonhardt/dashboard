@@ -1,0 +1,61 @@
+<mat-form-field>
+  <mat-select placeholder="Choose machine"
+              [formControl]="machineFormControl">
+    <mat-option *ngFor="let machine of stateService.machines$ | async"
+                [value]="machine">
+      {{machine}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<div class="slider mat-form-field">
+  <mat-label>Refresh rate</mat-label>
+  <mat-slider min="1"
+              max="60"
+              step="1"
+              thumbLabel
+              [matBadge]="stateService.periodCounter$ | async"
+              matBadgePosition="above after"
+              matBadgeColor="accent"
+              [displayWith]="refreshRateDisplayWith"
+              [formControl]="refreshRateFormControl"></mat-slider>
+</div>
+<mat-grid-list cols="2" rowHeight="14rem">
+  <mat-grid-tile>
+    <vw-tile [hidden]="!(stateService.currentLiveState$ | async)"
+             [machine]="stateService.currentLiveMachine$ | async"
+             title="Current State"
+             icon="filter_tilt_shift"
+             [value]="stateService.currentLiveState$ | async">
+    </vw-tile>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <vw-tile [hidden]="!(stateService.currentLivePower$ | async)"
+             [machine]="stateService.currentLiveMachine$ | async"
+             title="Current Power"
+             icon="flash_on"
+             [value]="stateService.currentLivePower$ | async">
+    </vw-tile>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="2" [rowspan]="2">
+    <div [hidden]="!(stateService.livePower5Min$ | async)">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Power in W</mat-card-title>
+          <mat-card-subtitle>Machine {{stateService.currentLiveMachine$ | async}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <canvas
+            baseChart height="100"
+            [datasets]="livePower5Min$ | async"
+            [labels]="labels"
+            [legend]="true"
+            [colors]="colors"
+            [options]="{ animation: { duration: 0 }}"
+            chartType="line"></canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>
+

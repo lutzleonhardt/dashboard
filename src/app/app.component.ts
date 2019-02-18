@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
+import { StateService } from 'src/services/state.service'
+import 'hammerjs'
 
 @Component({
-  selector: 'app-root',
+  selector: 'vw-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: [ './app.component.scss' ],
 })
 export class AppComponent {
-  title = 'vw-dashboard';
+  public constructor(public stateService: StateService) {
+  }
 }
